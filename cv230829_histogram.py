@@ -20,7 +20,6 @@ if __name__ == '__main__':
     for y in range(gray.shape[0]):
         for x in range(gray.shape[1]):
             hist[gray[y, x]] += 1
-    """
 
     # OpenCV 라이브러리의 calcHist 함수 사용
     hist = cv2.calcHist(images=[gray],
@@ -28,9 +27,26 @@ if __name__ == '__main__':
                         mask=None,
                         histSize=[256],
                         ranges=[0, 256])
+
+    # numpy 라이브러리 사용 1
+    hist, bins = np.histogram(gray.ravel(), 256, [0, 256])
+    
+    # 2차원 이미지를 flatten 한다
+    hist = np.bincount(gray.flatten(), minlength=256)
+    """
+
+    # numpy 라이브러리 사용 2 : 더 빠름
+    hist = np.bincount(gray.ravel(), minlength=256)
+
+    # 정규화 Normalization
+    # hist 타입이 int라서 float 으로 바꿔줘야함
+    hist = hist.astype(np.float64)
+    hist /= (512. * 512)
+
     plt.plot(hist)
     plt.show()
 
+    """
     # for showing
     cv2.imshow("src", src)
     cv2.imshow("gray img", gray)
@@ -38,3 +54,4 @@ if __name__ == '__main__':
 
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+    """
