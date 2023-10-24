@@ -25,11 +25,13 @@ def show_all_image(path):
             # 전체 경로
             full_path = folder + file
 
+            img = cv2.imread(full_path)
+
             # TODO: 만약 이미지를 저장할거면 반드시 지울 것. 원본이 손상 됨
+            # NG / OK 표시
             cv2.putText(img, class_name, (10, 100),
                         cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 0, 255), 2)
 
-            img = cv2.imread(full_path)
             data = cv2.resize(img, (224, 224))  # 사이즈 조절
             cv2.imshow("original_image", data)
 
